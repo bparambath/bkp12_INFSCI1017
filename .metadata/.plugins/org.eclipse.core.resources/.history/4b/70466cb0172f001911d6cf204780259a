@@ -1,0 +1,44 @@
+package bkp12_Music;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+
+public class Artist {
+	private String artistID;
+	private String firstName;
+	private String lastName;
+	private String bandName;
+	private String bio;
+	private DbUtilities db;
+	
+	public Artist(String artistID){
+		this.artistID = artistID;
+		db = new DbUtilities();
+		String sql = "SELECT firstName, lastName, bandName, bio FROM artist WHERE artist_id = " + this.artistID + ";";
+		try {
+			ResultSet rs = db.getResultSet(sql);
+			if(rs.next()){
+				this.title = rs.getString(1);
+				this.length = rs.getInt(2);
+				this.filePath = rs.getString(3);
+				this.releaseDate = rs.getString(4);
+				this.recordDate = rs.getString(5);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Song(String title, int length, String filePath, String releaseDate, String recordDate){
+		this.artistID = "" + UUID.randomUUID();
+		this.title = title;
+		this.length = length;
+		this.filePath = filePath;
+		this.releaseDate = releaseDate;
+		this.recordDate = recordDate;
+		String sql = "INSERT INTO song (title, length, filePath, releaseDate, recordDate) VALUES ('" + title + "', '" + length + "', '" + filePath + "', '" + releaseDate + "', '" + recordDate + "');";
+		System.out.println(sql);
+		db.executeQuery(sql);
+	}
+}
