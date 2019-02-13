@@ -6,7 +6,7 @@ public class MusicTester {
 		//In order to test, I commented all but small segments at a time separated by line breaks in my code. Also, I went into MySQL Workbench
 		//to check for inserts/new songs
 		
-		//I also kept it in the same folder as the in-class work.
+		//I also kept it in the same folder as the in class assignments.
 		
 		//testing Song
 		Song s = new Song("99");
