@@ -58,7 +58,7 @@ public class Album {
 	
 	//removes from database garbage collector has the rest
 	public void deleteAlbum(String albumID){
-		String sql = "DELETE FROM album WHERE album_id='" + albumID + "';";
+		String sql = "DELETE FROM artist WHERE album_id='" + albumID + "';";
 		System.out.println(sql);
 		db.executeQuery(sql);
 		//The object will be eligible for garbage collection (effectively deallocated) as soon as it is

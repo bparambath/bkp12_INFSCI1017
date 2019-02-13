@@ -49,7 +49,9 @@ public class MusicTester {
 		al.setLength(234);
 		
 		Album al2 = new Album("Bonito Generationn", "1995-10-23 00:00:00", "images/bonito.jpg", "bonito", 3, "X", 752);
-		al2.deleteAlbum("1");		
+		al2.deleteAlbum("1");
+
+		
 		
 	}
 

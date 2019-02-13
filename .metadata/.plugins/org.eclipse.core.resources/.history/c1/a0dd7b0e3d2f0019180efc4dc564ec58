@@ -49,7 +49,7 @@ public class Song {
 	
 	//removes from database garbage collector has the rest
 	public void deleteSong(String songID){
-		String sql = "DELETE FROM song WHERE song_id='" + songID + "';";
+		String sql = "DELETE FROM song WHERE song_id='" + songID + "');";
 		System.out.println(sql);
 		db.executeQuery(sql);
 		//The object will be eligible for garbage collection (effectively deallocated) as soon as it is
