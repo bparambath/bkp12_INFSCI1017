@@ -11,6 +11,8 @@ public class Artist {
 	private String bio;
 	private DbUtilities db;
 	
+	
+	//existing artist constructor
 	public Artist(String artistID){
 		this.artistID = artistID;
 		db = new DbUtilities();
@@ -29,6 +31,7 @@ public class Artist {
 		}
 	}
 	
+	//new artist constructor
 	public Artist(String firstName, String lastName, String bandName){
 		this.artistID = "" + UUID.randomUUID();
 		this.firstName = firstName;
@@ -40,6 +43,7 @@ public class Artist {
 		db.executeQuery(sql);
 	}
 	
+	//nulling object and removing from database
 	public void deleteArtist(String artistID){
 		String sql = "DELETE FROM artist WHERE artist_id='" + artistID + "');";
 		System.out.println(sql);
@@ -51,6 +55,9 @@ public class Artist {
 		this.bio = null;
 	}
 	
+	
+	//getters and setters for variables besides id and dbulilities
+
 	public String getFirstName() {
 		return firstName;
 	}

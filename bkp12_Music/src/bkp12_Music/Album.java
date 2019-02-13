@@ -14,6 +14,8 @@ public class Album {
 	private int length;
 	private DbUtilities db;
 	
+	
+	//existing album constructor
 	public Album(String albumID){
 		this.albumID = albumID;
 		db = new DbUtilities();
@@ -36,6 +38,7 @@ public class Album {
 		}
 	}
 	
+	//new album constructor
 	public Album(String title, String releaseDate, String coverImagePath, String recordingCompany, int numberOfTracks, String pmrcRating, int length){
 		this.albumID = "" + UUID.randomUUID();
 		this.title = title;
@@ -50,6 +53,8 @@ public class Album {
 		db.executeQuery(sql);
 	}
 	
+	//deletes album entry and object
+	
 	public void deleteAlbum(String albumID){
 		String sql = "DELETE FROM artist WHERE album_id='" + albumID + "');";
 		System.out.println(sql);
@@ -63,6 +68,8 @@ public class Album {
 		this.pmrcRating = null;
 		this.length = (Integer) null;
 	}
+
+	//getters and setters for variables besides id and dbulilities
 
 	public String getTitle() {
 		return title;

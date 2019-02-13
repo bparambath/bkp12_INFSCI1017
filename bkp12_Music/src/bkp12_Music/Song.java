@@ -12,7 +12,7 @@ public class Song {
 	private String recordDate;
 	private DbUtilities db;
 	
-	
+	//existing entry constructor
 	public Song(String songID){
 		this.songID = songID;
 		db = new DbUtilities();
@@ -32,6 +32,7 @@ public class Song {
 		}
 	}
 	
+	//new song constructor
 	public Song(String title, int length, String filePath, String releaseDate, String recordDate){
 		db = new DbUtilities();
 		this.songID = "" + UUID.randomUUID();
@@ -45,6 +46,7 @@ public class Song {
 		db.executeQuery(sql);
 	}
 	
+	//makes all values null and removes from database
 	public void deleteSong(String songID){
 		String sql = "DELETE FROM song WHERE song_id='" + songID + "');";
 		System.out.println(sql);
@@ -57,6 +59,9 @@ public class Song {
 		this.recordDate = null;
 	}
 
+	
+	//getters and setters for variables besides id and dbulilities
+	
 	public String getTitle() {
 		return title;
 	}
