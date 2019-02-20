@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lab1>
+	<songList>
+		<song>
+			<songID>1</songID>
+			<title>Flamingo</title>
+			<length>134</length>
+			<filePath>/songs/flamingo.mp3</filePath>
+		    <releaseDate>1971-10-08 00:00:00</releaseDate>
+		    <recordDate>1971-05-07 00:00:00</recordDate>
+		    <artistList>
+		    	<artist>
+		    		<artistID>1</artistID>
+		    		<firstName>John</firstName>
+		    		<lastName>Doe</lastName>
+		    		<bandName>Kero Kero Bonito</bandName>
+		    		<bio>How many shrimps do you have to eat?</bio>
+		    	</artist>
+		    </artistList>
+	    </song>
+	</songList>
+	
+	<artistList>
+		<artist>
+	    		<artistID>1</artistID>
+	    		<firstName>John</firstName>
+	    		<lastName>Doe</lastName>
+	    		<bandName>Kero Kero Bonito</bandName>
+	    		<bio>How many shrimps do you have to eat?</bio>
+	    	</artist>
+	</artistList>
+	
+	<albumList>
+		<albumID>1</albumID>
+		<title>shh#ffb6c1</title>
+		<releaseDate>2014</releaseDate>
+		<coverImagePath>images/flamingo.jpg</coverImagePath>
+		<recordingCompany>Sony</recordingCompany>
+		<numberOfTracks>3</numberOfTracks>
+		<pmrcRating>X</pmrcRating>
+		<length>752</length>
+		<songList>
+			<song>
+				<songID>1</songID>
+				<title>Flamingo</title>
+				<length>134</length>
+				<filePath>/songs/flamingo.mp3</filePath>
+			    <releaseDate>1971-10-08 00:00:00</releaseDate>
+			    <recordDate>1971-05-07 00:00:00</recordDate>
+			    <artistList>
+			    	<artist>
+			    		<artistID>1</artistID>
+			    		<firstName>John</firstName>
+			    		<lastName>Doe</lastName>
+			    		<bandName>Kero Kero Bonito</bandName>
+			    		<bio>How many shrimps do you have to eat?</bio>
+			    	</artist>
+			    </artistList>
+	    	</song>
+		</songList>
+		
+	
+	</albumList>
+</lab1>

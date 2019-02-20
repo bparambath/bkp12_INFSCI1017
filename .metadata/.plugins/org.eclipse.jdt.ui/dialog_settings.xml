@@ -36,7 +36,7 @@
 	<section name="javadoc">
 		<item value="public" key="access"/>
 		<item value="false" key="noindex"/>
-		<item value="C:\Users\bpara\Documents\Junior Second Sem\INFSCI1017\bkp12_INFSCI1017\MySQLConnectTest\javadoc.xml" key="antpath"/>
+		<item value="C:\Users\bpara\Documents\Junior Second Sem\INFSCI1017\bkp12_INFSCI1017\bkp12_Music\javadoc.xml" key="antpath"/>
 		<item value="false" key="nodeprecatedlist"/>
 		<item value="true" key="use"/>
 		<item value="true" key="author"/>
@@ -50,7 +50,7 @@
 		<item value="true" key="splitindex"/>
 		<item value="true" key="fromStandard"/>
 		<item value="false" key="notree"/>
-		<item value="C:\Users\bpara\Documents\Junior Second Sem\INFSCI1017\bkp12_INFSCI1017\MySQLConnectTest\doc" key="destdir"/>
+		<item value="C:\Users\bpara\Documents\Junior Second Sem\INFSCI1017\bkp12_INFSCI1017\bkp12_Music\doc" key="destdir"/>
 		<item value="false" key="openinbrowser"/>
 		<section name="projects">
 			<section name="MySQLConnectTest">
@@ -84,10 +84,10 @@
 	<section name="quick_assist_proposal_size">
 	</section>
 	<section name="JavadocWizardDialog">
-		<item value="818" key="DIALOG_WIDTH"/>
+		<item value="925" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
 		<item value="698" key="DIALOG_HEIGHT"/>
-		<item value="560" key="DIALOG_X_ORIGIN"/>
+		<item value="453" key="DIALOG_X_ORIGIN"/>
 		<item value="65" key="DIALOG_Y_ORIGIN"/>
 	</section>
 	<section name="BuildPathsPropertyPage">
