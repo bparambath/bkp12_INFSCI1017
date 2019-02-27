@@ -24,11 +24,11 @@ public class MusicTester {
 
 		
 		//testing Artist
-		Artist a = new Artist("0208d02c-191e-4e58-9103-f474b9253581");
+		Artist a = new Artist("0208d02c-191e-4e58-9103-f474b9999999");
 		System.out.println(a.getBandName());
 		
-		a.setFirstName("Wub wub wub");
-		a.setLastName("lol");
+		a.setFirstName("Kero Kero");
+		a.setLastName("Bonito");
 		a.setBandName("Kero Kero Bonito");
 		a.setBio("Funny song lol");
 		System.out.println(a.getBio());
