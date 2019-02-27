@@ -1,3 +1,4 @@
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -32,7 +33,7 @@ public class Song {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String sql2 = "SELECT artist_id FROM song_artist WHERE song_id = '" + this.songID + "';";
+		String sql2 = "SELECT fk_artist_id FROM song_artist WHERE fk_song_id = '" + this.songID + "';";
 		try {
 			//creates the resultset object fromt the sql query so we can create the Song Object
 			ResultSet rs = db.getResultSet(sql2);
@@ -55,16 +56,37 @@ public class Song {
 		this.filePath = filePath;
 		this.releaseDate = releaseDate;
 		this.recordDate = recordDate;
-		String sql = "INSERT INTO song (song_id, title, length, file_path, release_date, record_date) VALUES ('" + songID + "', '"+ title + "', '" + length + "', '" + filePath + "', '" + releaseDate + "', '" + recordDate + "');";
+		String sql = "INSERT INTO song (song_id, title, length, file_path, release_date, record_date) VALUES (?,?,?,?,?,?)";
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, songID);
+			stmt.setString(2, title);
+			stmt.setInt(3, length);
+			stmt.setString(4, filePath);
+			stmt.setString(5, releaseDate);
+			stmt.setString(6, recordDate);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql); //executes the sql query (actually adding it to the database)
 	}
 	
 	//removes from database garbage collector has the rest
 	public void deleteSong(String songID){
-		String sql = "DELETE FROM song WHERE song_id='" + songID + "';";
+		String sql = "DELETE FROM song WHERE song_id= ?;";
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, songID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 		//The object will be eligible for garbage collection (effectively deallocated) as soon as it is
 		//not reachable from one of the root objects. Basically self-references doesn't matter. (so it would need to set to null in
 		//the main method. https://stackoverflow.com/questions/12089961/delete-this-object-inside-the-class
@@ -89,8 +111,20 @@ public class Song {
 		return songID;
 	}
 
-	public void setSongID(String songID) {
-		this.songID = songID;
+	public void setSongID(String songID1) {
+		String temp = this.songID;
+		this.songID = songID1;
+		String sql = "Update artist SET artist_id = ? WHERE artist_id = ?;";
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, songID1);
+			stmt.setString(2, temp);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String getTitle() {
@@ -98,10 +132,19 @@ public class Song {
 	}
 
 	public void setTitle(String title) {
-		String sql = "Update song SET title = '" + title + "' WHERE song_id = " + this.songID + ";";
+		String sql = "Update song SET title = ? WHERE song_id = ?;";
 		this.title = title;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, title);
+			stmt.setString(2, songID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public int getLength() {
@@ -109,10 +152,19 @@ public class Song {
 	}
 
 	public void setLength(int length) {
-		String sql = "Update song SET length = '" + length + "' WHERE song_id = " + this.songID + ";";
+		String sql = "Update song SET length = ? WHERE song_id = ?;";
 		this.length = length;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setInt(1, length);
+			stmt.setString(2, songID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getFilePath() {
@@ -120,10 +172,19 @@ public class Song {
 	}
 
 	public void setFilePath(String filePath) {
-		String sql = "Update song SET file_path = '" + filePath + "' WHERE song_id = " + this.songID + ";";
+		String sql = "Update song SET file_path = ? WHERE song_id = ?;";
 		this.filePath = filePath;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, filePath);
+			stmt.setString(2, songID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getReleaseDate() {
@@ -131,10 +192,19 @@ public class Song {
 	}
 
 	public void setReleaseDate(String releaseDate) {
-		String sql = "Update song SET release_date = '" + releaseDate + "' WHERE song_id = " + this.songID + ";";
+		String sql = "Update song SET release_date = ? WHERE song_id = ?;";
 		this.releaseDate = releaseDate;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, releaseDate);
+			stmt.setString(2, songID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getRecordDate() {
@@ -142,10 +212,19 @@ public class Song {
 	}
 
 	public void setRecordDate(String recordDate) {
-		String sql = "Update song SET record_date = '" + recordDate + "' WHERE song_id = " + this.songID + ";";
+		String sql = "Update song SET record_date = ? WHERE song_id = ?;";
 		this.recordDate = recordDate;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, recordDate);
+			stmt.setString(2, songID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 	}	
 	
 }

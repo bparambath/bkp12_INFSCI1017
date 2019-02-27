@@ -1,3 +1,4 @@
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -8,15 +9,15 @@ public class Artist {
 	private String lastName;
 	private String bandName;
 	private String bio;
-	private DbUtilities db;
+	private DbUtilities db = new DbUtilities();
 	
 	
 	//existing artist constructor
 	public Artist(String artistID){
 		this.setArtistID(artistID);
-		db = new DbUtilities();
 		//creates the resultset object fromt the sql query so we can create the Artist Object
 		String sql = "SELECT first_name, last_name, band_name, bio FROM artist WHERE artist_id = '" + this.getArtistID() + "';";
+		
 		try {
 			ResultSet rs = db.getResultSet(sql);
 			if(rs.next()){
@@ -33,23 +34,43 @@ public class Artist {
 	
 	//new artist constructor
 	public Artist(String firstName, String lastName, String bandName){
-		db = new DbUtilities();
 		//setting all of the song object values from the parameters
 		this.setArtistID("" + UUID.randomUUID());
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.bandName = bandName;
 		this.bio = "";
-		String sql = "INSERT INTO artist (artist_id, first_name, last_name, band_name, bio) VALUES ('" + getArtistID() + "', '" + firstName + "', '" + lastName + "', '" + bandName + "', '" + bio + "');";
+		String sql = "INSERT INTO artist (artist_id, first_name, last_name, band_name, bio) VALUES (?,?,?,?,?);";
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, artistID);
+			stmt.setString(2, firstName);
+			stmt.setString(3, lastName);
+			stmt.setString(4, bandName);
+			stmt.setString(5, bio);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql); //executes the sql query (actually adding it to the database)
+
 	}
 	
 	//removes from database garbage collector has the rest
 	public void deleteArtist(String artistID){
-		String sql = "DELETE FROM artist WHERE artist_id='" + artistID + "';";
+		String sql = "DELETE FROM artist WHERE artist_id= ?;";
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, artistID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 		//The object will be eligible for garbage collection (effectively deallocated) as soon as it is
 		//not reachable from one of the root objects. Basically self-references doesn't matter. (so it would need to set to null in
 		//the main method. https://stackoverflow.com/questions/12089961/delete-this-object-inside-the-class
@@ -64,10 +85,20 @@ public class Artist {
 	}
 
 	public void setFirstName(String firstName) {
-		String sql = "Update artist SET first_name = '" + firstName + "' WHERE artist_id = " + this.getArtistID() + ";";
+		String sql = "Update artist SET first_name = ? WHERE artist_id = ?;";
 		this.firstName = firstName;
-		System.out.println(sql);
-		db.executeQuery(sql);
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, firstName);
+			stmt.setString(2, artistID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 	}
 
 	public String getLastName() {
@@ -75,10 +106,19 @@ public class Artist {
 	}
 
 	public void setLastName(String lastName) {
-		String sql = "Update artist SET last_name = '" + lastName + "' WHERE artist_id = " + this.getArtistID() + ";";
+		String sql = "Update artist SET last_name = ? WHERE artist_id = ?;";
 		this.lastName = lastName;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, lastName);
+			stmt.setString(2, artistID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getBandName() {
@@ -86,10 +126,20 @@ public class Artist {
 	}
 
 	public void setBandName(String bandName) {
-		String sql = "Update artist SET band_name = '" + bandName + "' WHERE artist_id = " + this.getArtistID() + ";";
+		String sql = "Update artist SET band_name = ? WHERE artist_id = ?;";
 		this.bandName = bandName;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, bandName);
+			stmt.setString(2, artistID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
+		
 	}
 
 	public String getBio() {
@@ -97,18 +147,39 @@ public class Artist {
 	}
 
 	public void setBio(String bio) {
-		String sql = "Update artist SET bio = '" + bio + "' WHERE artist_id = " + this.getArtistID() + ";";
+		String sql = "Update artist SET bio = ? WHERE artist_id = ?;";
 		this.bio = bio;
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, bio);
+			stmt.setString(2, artistID);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getArtistID() {
 		return artistID;
 	}
 
-	public void setArtistID(String artistID) {
-		this.artistID = artistID;
-	}
+	public void setArtistID(String artistID1) {
+		String temp = this.artistID;
+		this.artistID = artistID1;
+		String sql = "Update artist SET artist_id = ? WHERE artist_id = ?;";
+		try {
+			PreparedStatement stmt = db.getConn().prepareStatement(sql);
+			stmt.setString(1, artistID1);
+			stmt.setString(2, temp);
+			int i = stmt.executeUpdate();
+			System.out.println(i + " records inserted");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
 }

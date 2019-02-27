@@ -38,7 +38,7 @@ public class Album {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String sql2 = "SELECT song_id FROM album_song WHERE album_id = '" + this.albumID + "';";
+		String sql2 = "SELECT fk_song_id FROM album_song WHERE fk_album_id = '" + this.albumID + "';";
 		try {
 			//creates the resultset object fromt the sql query so we can create the Song Object
 			ResultSet rs = db.getResultSet(sql2);
@@ -87,7 +87,7 @@ public class Album {
 	
 	//removes from database garbage collector has the rest
 	public void deleteAlbum(String albumID){
-		String sql = "DELETE FROM album WHERE album_id='?';";
+		String sql = "DELETE FROM album WHERE album_id= ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
 			stmt.setString(1, albumID);
@@ -98,7 +98,6 @@ public class Album {
 			e.printStackTrace();
 		}
 		System.out.println(sql);
-		db.executeQuery(sql);
 		//The object will be eligible for garbage collection (effectively deallocated) as soon as it is
 		//not reachable from one of the root objects. Basically self-references doesn't matter. (so it would need to set to null in
 		//the main method. https://stackoverflow.com/questions/12089961/delete-this-object-inside-the-class
@@ -145,13 +144,13 @@ public class Album {
 		return albumID;
 	}
 
-	public void setAlbumID(String albumID) {
-		String temp = albumID;
-		this.albumID = albumID;
-		String sql = "Update album SET album_id = '?' WHERE album_id ='?';";
+	public void setAlbumID(String albumID1) {
+		String temp = this.albumID;
+		this.albumID = albumID1;
+		String sql = "Update album SET album_id = ? WHERE album_id = ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
-			stmt.setString(1, albumID);
+			stmt.setString(1, albumID1);
 			stmt.setString(2, temp);
 			int i = stmt.executeUpdate();
 			System.out.println(i + " records inserted");
@@ -167,7 +166,7 @@ public class Album {
 	}
 
 	public void setReleaseDate(String releaseDate) {
-		String sql = "Update album SET release_date = '?' WHERE album_id = '?';";
+		String sql = "Update album SET release_date = ? WHERE album_id = ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
 			stmt.setString(1, releaseDate);
@@ -185,7 +184,7 @@ public class Album {
 	}
 
 	public void setCoverImagePath(String coverImagePath) {
-		String sql = "Update album SET cover_image_path = '?' WHERE album_id = '?';";
+		String sql = "Update album SET cover_image_path = ? WHERE album_id = ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
 			stmt.setString(1, coverImagePath);
@@ -203,7 +202,7 @@ public class Album {
 	}
 
 	public void setRecordingCompany(String recordingCompany) {
-		String sql = "Update album SET recording_company_name = '?' WHERE album_id = '?';";
+		String sql = "Update album SET recording_company_name = ? WHERE album_id = ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
 			stmt.setString(1, recordingCompany);
@@ -221,7 +220,7 @@ public class Album {
 	}
 
 	public void setNumberOfTracks(int numberOfTracks) {
-		String sql = "Update album SET number_of_tracks = '?' WHERE album_id = '?';";
+		String sql = "Update album SET number_of_tracks = ? WHERE album_id = ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
 			stmt.setInt(1, numberOfTracks);
@@ -239,7 +238,7 @@ public class Album {
 	}
 
 	public void setPmrcRating(String pmrcRating) {
-		String sql = "Update album SET PMRC_rating = '?' WHERE album_id = '?';";
+		String sql = "Update album SET PMRC_rating = ? WHERE album_id = ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
 			stmt.setString(1, pmrcRating);
@@ -257,7 +256,7 @@ public class Album {
 	}
 
 	public void setLength(int length) {
-		String sql = "Update album SET length = '?' WHERE album_id = '?';";
+		String sql = "Update album SET length = ? WHERE album_id = ?;";
 		try {
 			PreparedStatement stmt = db.getConn().prepareStatement(sql);
 			stmt.setInt(1, length);
