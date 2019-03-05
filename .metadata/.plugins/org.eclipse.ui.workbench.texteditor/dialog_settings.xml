@@ -8,6 +8,7 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value=" &lt;property name=”javax.persistence.jdbc.user” value=”infsci1017_2019”/&gt;"/>
 			<item value="artistID"/>
 			<item value="songID"/>
 			<item value="genreID"/>

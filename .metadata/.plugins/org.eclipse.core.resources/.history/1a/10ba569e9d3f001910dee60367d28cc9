@@ -1,0 +1,29 @@
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.persistence.*;
+public class JPATester {
+
+	public static void main(String[] args) {
+		ManageAlbums am = new ManageAlbums();
+		am.createAlbum("19", "The best album", "1998-05-03 07:00:00", "image path", "recording boi", 99, "X", 199);
+		// am.updateGenre(20, "I just updated this", "");
+		//am.deleteGenre(20);
+		
+		//ManageArtists ar= new ManageArtists();
+		//ar.createArtist("19", "The first name", "the last name", "band name", "bio");
+		// am.updateGenre(20, "I just updated this", "");
+		//am.deleteGenre(20);
+		
+		//ManageSongs s = new ManageSongs();
+		//s.createSong("19", "The title", 55, "the path", "1998-05-03 07:00:00", "1998-05-03 07:00:00");
+		// am.updateGenre(20, "I just updated this", "");
+		//am.deleteGenre(20);
+
+	}
+
+}

@@ -1,0 +1,20 @@
+
+public class ManageArtists {
+
+	public void createSong(){
+		
+	}
+	
+	public void updateSong(){
+			
+	}
+	
+	public void deleteSong(){
+		
+	}
+	
+	public Song findSong(){
+		return null;
+		
+	}
+}

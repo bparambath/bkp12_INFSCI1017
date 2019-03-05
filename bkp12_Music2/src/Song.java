@@ -2,14 +2,45 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table (name="song")
 public class Song {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	
+	@Column(name = "song_id")
 	private String songID;
+	
+	@Column(name = "title")
 	private String title;
+	
+	@Column(name = "length")
 	private int length;
+	
+	@Column(name = "file_path")
 	private String filePath;
+	
+	@Column(name = "release_date")
 	private String releaseDate;
+	
+	@Column(name = "record_date")
 	private String recordDate;
+	
+	@Transient
 	private DbUtilities db;
+	
+	//default constructor
+	
+	public Song(){}
 	
 	//existing entry constructor
 	public Song(String songID){
@@ -56,21 +87,28 @@ public class Song {
 		//not reachable from one of the root objects. Basically self-references doesn't matter. (so it would need to set to null in
 		//the main method. https://stackoverflow.com/questions/12089961/delete-this-object-inside-the-class
 	}
-
+	
 
 	
 	//getters and setters for variables besides id and dbulilities
 	//setters update both in the object and in the database
+
+
+
+	public String getSongID() {
+		return songID;
+	}
+
+	public void setSongID(String songID) {
+		this.songID = songID;
+	}
 
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
-		String sql = "Update song SET title = '" + title + "' WHERE song_id = " + this.songID + ";";
 		this.title = title;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public int getLength() {
@@ -78,10 +116,7 @@ public class Song {
 	}
 
 	public void setLength(int length) {
-		String sql = "Update song SET length = '" + length + "' WHERE song_id = " + this.songID + ";";
 		this.length = length;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getFilePath() {
@@ -89,10 +124,7 @@ public class Song {
 	}
 
 	public void setFilePath(String filePath) {
-		String sql = "Update song SET file_path = '" + filePath + "' WHERE song_id = " + this.songID + ";";
 		this.filePath = filePath;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getReleaseDate() {
@@ -100,10 +132,7 @@ public class Song {
 	}
 
 	public void setReleaseDate(String releaseDate) {
-		String sql = "Update song SET release_date = '" + releaseDate + "' WHERE song_id = " + this.songID + ";";
 		this.releaseDate = releaseDate;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getRecordDate() {
@@ -111,10 +140,7 @@ public class Song {
 	}
 
 	public void setRecordDate(String recordDate) {
-		String sql = "Update song SET record_date = '" + recordDate + "' WHERE song_id = " + this.songID + ";";
 		this.recordDate = recordDate;
-		System.out.println(sql);
-		db.executeQuery(sql);
-	}	
+	}
 	
 }

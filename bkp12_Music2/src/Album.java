@@ -2,17 +2,50 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
+@Entity
+@Table (name="album")
 public class Album {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	
+	@Column(name = "album_id")
 	private String albumID;
+	
+	@Column(name = "title")
 	private String title;
+	
+	@Column(name = "release_date")
 	private String releaseDate;
+	
+	@Column(name = "cover_image_path")
 	private String coverImagePath;
+	
+	@Column(name = "recording_company_name")
 	private String recordingCompany;
+	
+	@Column(name = "number_of_tracks")
 	private int numberOfTracks;
+	
+	@Column(name = "PMRC_rating")
 	private String pmrcRating;
+	
+	@Column(name = "length")
 	private int length;
+	
+	@Transient
 	private DbUtilities db;
 	
+	//default constructor
+	public Album(){}
 	
 	//existing album constructor
 	public Album(String albumID){
@@ -66,18 +99,20 @@ public class Album {
 		//the main method. https://stackoverflow.com/questions/12089961/delete-this-object-inside-the-class
 	}
 
-	//getters and setters for variables besides id and dbulilities
-	//setters update both in the object and in the database
+	public String getAlbumID() {
+		return albumID;
+	}
+
+	public void setAlbumID(String albumID) {
+		this.albumID = albumID;
+	}
 
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
-		String sql = "Update album SET title = '" + title + "' WHERE album_id = " + this.albumID + ";";
 		this.title = title;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getReleaseDate() {
@@ -85,10 +120,7 @@ public class Album {
 	}
 
 	public void setReleaseDate(String releaseDate) {
-		String sql = "Update album SET release_date = '" + releaseDate + "' WHERE album_id = " + this.albumID + ";";
 		this.releaseDate = releaseDate;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getCoverImagePath() {
@@ -96,10 +128,7 @@ public class Album {
 	}
 
 	public void setCoverImagePath(String coverImagePath) {
-		String sql = "Update album SET cover_image_path = '" + coverImagePath + "' WHERE album_id = " + this.albumID + ";";
 		this.coverImagePath = coverImagePath;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getRecordingCompany() {
@@ -107,10 +136,7 @@ public class Album {
 	}
 
 	public void setRecordingCompany(String recordingCompany) {
-		String sql = "Update album SET recording_company_name = '" + recordingCompany + "' WHERE album_id = " + this.albumID + ";";
 		this.recordingCompany = recordingCompany;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public int getNumberOfTracks() {
@@ -118,10 +144,7 @@ public class Album {
 	}
 
 	public void setNumberOfTracks(int numberOfTracks) {
-		String sql = "Update album SET number_of_tracks = '" + numberOfTracks + "' WHERE album_id = " + this.albumID + ";";
 		this.numberOfTracks = numberOfTracks;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public String getPmrcRating() {
@@ -129,10 +152,7 @@ public class Album {
 	}
 
 	public void setPmrcRating(String pmrcRating) {
-		String sql = "Update album SET PMRC_rating = '" + pmrcRating + "' WHERE album_id = " + this.albumID + ";";
 		this.pmrcRating = pmrcRating;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
 
 	public int getLength() {
@@ -140,11 +160,11 @@ public class Album {
 	}
 
 	public void setLength(int length) {
-		String sql = "Update album SET length = '" + length + "' WHERE album_id = " + this.albumID + ";";
 		this.length = length;
-		System.out.println(sql);
-		db.executeQuery(sql);
 	}
-	
+
+	//getters and setters for variables besides id and dbulilities
+	//setters update both in the object and in the database
 	
 }
+	

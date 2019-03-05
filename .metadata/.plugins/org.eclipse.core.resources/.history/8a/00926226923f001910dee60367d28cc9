@@ -1,0 +1,20 @@
+
+public class ManageArtists {
+
+	public void createArtist(){
+		
+	}
+	
+	public void updateArtist(){
+			
+	}
+	
+	public void deleteArtist(){
+		
+	}
+	
+	public Artist findArtist(){
+		return null;
+		
+	}
+}
