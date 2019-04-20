@@ -1,0 +1,145 @@
+package Music;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.json.JSONArray;
+
+public class ManageAlbums {
+
+	public void createAlbum(String albumID, String title, String releaseDate, String coverImagePath, 
+							String recordingCompany, int numberOfTracks, String pmrcRating, int length){
+		
+		EntityManagerFactory emFactory = 
+				Persistence.createEntityManagerFactory("bkp12_MusicJPAWeb");
+		
+		EntityManager em = emFactory.createEntityManager();
+		
+		em.getTransaction().begin();
+		Album a = new Album();
+		
+		// Artist a = new Artist();
+		// a.setArtistID(UUID.randomUUID().toString());
+		
+		a.setAlbumID(albumID);
+		a.setTitle(title);
+		a.setReleaseDate(releaseDate);
+		a.setCoverImagePath(coverImagePath);
+		a.setRecordingCompany(recordingCompany);
+		a.setNumberOfTracks(numberOfTracks);
+		a.setPmrcRating(pmrcRating);
+		a.setLength(length);
+		
+		// Add the Album object to the ORM object grid
+		em.persist(a);
+		
+		// Commit transaction
+		em.getTransaction().commit();
+		
+		// Close connection to persistence manager
+		em.close();
+		emFactory.close();
+	}
+	
+	public void updateAlbum(String albumID, String title, String releaseDate, String coverImagePath, 
+			String recordingCompany, int numberOfTracks, String pmrcRating, int length){
+		
+		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("bkp12_MusicJPAWeb");
+		EntityManager em = emFactory.createEntityManager();
+		em.getTransaction().begin();
+		
+		Album a = em.find(Album.class, albumID);
+		
+		if(!title.equals("")){
+			a.setTitle(title);;
+		}
+		if(!releaseDate.equals("")){
+			a.setReleaseDate(releaseDate);
+		}
+		if(!coverImagePath.equals("")){
+			a.setCoverImagePath(coverImagePath);
+		}
+		if(!recordingCompany.equals("")){
+			a.setRecordingCompany(recordingCompany);
+		}
+		if(!(numberOfTracks == 0)){
+			a.setNumberOfTracks(numberOfTracks);
+		}
+		if(!pmrcRating.equals("")){
+			a.setPmrcRating(pmrcRating);
+		}
+		if(!(length == 0)){
+			a.setLength(length);
+		}
+		
+		em.persist(a);
+		em.getTransaction().commit();
+		
+		em.close();
+		emFactory.close();	
+	}
+	
+	public void deleteAlbum(String albumID){
+		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("bkp12_MusicJPAWeb");
+		EntityManager em = emFactory.createEntityManager();
+		em.getTransaction().begin();
+		
+		Album a = em.find(Album.class, albumID);
+		
+		em.remove(a);
+		em.getTransaction().commit();
+		
+		em.close();
+		emFactory.close();
+	}
+	
+	public Album findAlbum(String albumID){
+		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("bkp12_MusicJPAWeb");
+		EntityManager em = emFactory.createEntityManager();
+		em.getTransaction().begin();
+		
+		Album a = em.find(Album.class, albumID);
+		em.getTransaction().commit();
+		
+		em.close();
+		emFactory.close();
+		return a;
+		
+	}
+	
+	public JSONArray getArtistList(String searchTerm, String searchType){
+		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("bkp12_MusicJPAWeb");
+		EntityManager em = emFactory.createEntityManager();
+		
+		// Note that you are querying the object grid, not the database!
+		String qry = "SELECT a.artistID FROM Artist a ";
+		if(!searchTerm.equals("")){
+			if(searchType.equalsIgnoreCase("equals")){
+				qry += "WHERE a.band_name = '" + searchTerm + "'";
+			}
+			else if(searchType.equalsIgnoreCase("begins")){
+				qry += "WHERE a.band_name LIKE '" + searchTerm + "%'";
+			}
+			else if(searchType.equalsIgnoreCase("ends")){
+				qry += "WHERE a.band_name LIKE '%" + searchTerm + "'";
+			}
+			else{
+				qry += "WHERE a.band_name LIKE '%" + searchTerm + "%'";
+			}
+		}
+		
+		
+		List<String> artistIDs = em.createQuery(qry).getResultList();
+		JSONArray artistListJSON = new JSONArray();
+		for(String artistID : artistIDs){
+			Artist a = em.find(Artist.class, artistID);
+			artistListJSON.put(a.toJSON());
+		}
+		em.close();
+		emFactory.close();
+		
+		return artistListJSON;
+	}
+}

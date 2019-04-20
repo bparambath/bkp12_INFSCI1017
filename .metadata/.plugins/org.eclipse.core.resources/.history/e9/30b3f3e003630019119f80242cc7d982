@@ -1,0 +1,433 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Music Songs</title>
+<script src="js/jquery-3.3.1.min.js"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<style>
+/*https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_three_columns*/
+* {
+  box-sizing: border-box;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+<body>
+<p style="text-align:center;font-size:64px;margin:0;">Music</p>
+<div class="row">
+	<div class="column" id="listButtons">
+		<div class="row" id="artistList">
+			<input type="button" id="btnArtistList" name="btnArtistList" value="Search" />
+		</div>
+		<div class="row" id="artistSong">
+			<input type="button" id="btnSongList" name="btnSongList" value="Search" />
+		</div>
+	</div>
+	<div class="column" id="songSearch">
+		<h1>Song Search</h1>
+		<div>
+			Search Type: 
+			<select name="searchTypeSong" id="searchTypeSong" class="textField">
+				<option value="">Everything</option>
+				<option value="equals">Equals</option>
+				<option value="begins">Begins</option>
+				<option value="ends">Ends</option>
+				<option value="contains">Contains</option>
+			</select>
+		</div>
+		<div>
+			Song Name: <input type="text" id="titleSong" name="titleSong" value="" class="textField" />
+		</div>
+		<div>
+			<input type="button" id="btnSong" name="btnSong" value="Search" />
+		</div>
+	</div>
+	<div class="column" id="albumSearch">
+		<h1>Album Search</h1>	
+		<div>
+			Search Type: 
+			<select name="searchTypeAlbum" id="searchTypeAlbum" class="textField">
+				<option value="">Everything</option>
+				<option value="equals">Equals</option>
+				<option value="begins">Begins</option>
+				<option value="ends">Ends</option>
+				<option value="contains">Contains</option>
+			</select>
+		</div>
+		<div>
+			Album title: <input type="text" id="titleAlbum" name="titleAlbum" value="" class="textField" />
+		</div>
+		<div>
+			<input type="button" id="btnAlbum" name="btnAlbum" value="Search" />
+		</div>
+	</div>
+	<div class="column" id="artistSearch">
+		<h1>Artist Search</h1>
+		<div>
+			Search Type: 
+			<select name="searchTypeArtist" id="searchTypeArtist" class="textField">
+				<option value="">Everything</option>
+				<option value="equals">Equals</option>
+				<option value="begins">Begins</option>
+				<option value="ends">Ends</option>
+				<option value="contains">Contains</option>
+			</select>
+		</div>
+		<div>
+			Band Name: <input type="text" id="titleArtist" name="titleArtist" value="" class="textField" />
+		</div>
+		<div>
+			<input type="button" id="btnArtist" name="btnArtist" value="Search" />
+		</div>
+	</div>
+</div>
+
+<div id="searchResults">
+	<table id="tblSearchResults" >
+		<tr class="hide1">
+			<th>Song title</th>
+			<th>Song Length</th>
+			<th>Song File Path</th>
+			<th>Song Release Date</th>
+			<th>Song Record Date</th>
+		</tr>
+		<tr class="hide2">
+			<th>Album title</th>
+			<th>Album release date</th>
+			<th>Album cover image path</th>
+			<th>Album recording company</th>
+			<th>Album number of tracks</th>
+			<th>Album PMRC rating</th>
+			<th>Album length</th>
+		</tr>
+		<tr class="hide3">
+			<th>Artist first name</th>
+			<th>Artist last name</th>
+			<th>Artist band name</th>
+			<th>Artist bio</th>
+		</tr>
+		<tr class="hide4">
+			<th>Song title</th>
+		</tr>
+		<tr class="hide5">
+			<th>Artist First Name</th>
+			<th>Artist Last Name</th>
+		</tr>
+	</table>
+</div>
+
+</body>
+<script>
+	$(document).ready(function (){
+		$('.hide1').hide();
+		$('.hide2').hide();
+		$('.hide3').hide();
+		$('.hide4').hide();
+		$('.hide5').hide();		
+		$("#btnSong").click(function (){
+			search("song");
+		});
+		$("#btnAlbum").click(function (){
+			search("album");
+		});
+		$("#btnArtist").click(function (){
+			search("artist");
+		});
+		$("#btnArtistList").click(function (){
+			search("artistList");
+		});
+		$("#btnSongList").click(function (){
+			search("songList");
+		});
+		
+		$("#titleSong").keyup(function(){
+			var keyPressed = $("#titleSong").val();
+			if(keyPressed.length > 2){
+				search("song");
+			}else{
+				$(".dataRow").remove();
+			}
+		});
+		$("#titleAlbum").keyup(function(){
+			var keyPressed = $("#titleAlbum").val();
+			if(keyPressed.length > 2){
+				search("album");
+			}else{
+				$(".dataRow").remove();
+			}
+		});
+		$("#titleArtist").keyup(function(){
+			var keyPressed = $("#titleArtist").val();
+			if(keyPressed.length > 2){
+				search("artist");
+			}else{
+				$(".dataRow").remove();
+			}
+		});
+	});
+	
+	function search(searchType){
+		if(searchType === "song"){
+			var titleSong = $("#titleSong").val();
+			var searchTypeSong = $("#searchTypeSong").val();
+			
+			
+			// console.log("Song: " + titleSong);
+			// console.log("searchTypeSong: " + searchTypeSong);
+			var url = "/bkp12_MusicJPAWeb/servlets/SongListWS?title=" + titleSong + "&searchType=" + searchTypeSong;
+			// console.log(url);
+			$.get(url, function(resp){
+				// console.log(resp);
+				parseSongData(resp);
+
+			}) 
+		}else if(searchType === "album"){
+			var titleAlbum = $("#titleAlbum").val();
+			var searchTypeAlbum = $("#searchTypeAlbum").val();
+			
+			
+			// console.log("Song: " + titleSong);
+			// console.log("searchTypeSong: " + searchTypeSong);
+			var url = "/bkp12_MusicJPAWeb/servlets/AlbumListWS?title=" + titleAlbum + "&searchType=" + searchTypeAlbum;
+			// console.log(url);
+			$.get(url, function(resp){
+				// console.log(resp);
+				parseAlbumData(resp);
+
+			}) 
+		}else if(searchType === "artist"){
+			var titleArtist = $("#titleArtist").val();
+			var searchTypeArtist = $("#searchTypeArtist").val();
+			
+			// console.log("Artist: " + titleArtist);
+			// console.log("searchTypeArtist: " + searchTypeArtist);
+			var url = "/bkp12_MusicJPAWeb/servlets/ArtistListWS?bandName=" + titleArtist + "&searchType=" + searchTypeArtist;
+			// console.log(url);
+			$.get(url, function(resp){
+				// console.log(resp);
+				parseArtistData(resp);
+
+			}) 
+		}else if(searchType === "songList"){
+			var titleSong = "";
+			var searchTypeSong = "";
+			
+			
+			// console.log("Song: " + titleSong);
+			// console.log("searchTypeSong: " + searchTypeSong);
+			var url = "/bkp12_MusicJPAWeb/servlets/SongListWS?title=" + titleSong + "&searchType=" + searchTypeSong;
+			// console.log(url);
+			$.get(url, function(resp){
+				// console.log(resp);
+				parseSongListData(resp);
+
+			}) 
+		}else if(searchType === "artistList"){
+			var titleArtist = "";
+			var searchTypeArtist = "";
+			
+			// console.log("Artist: " + titleArtist);
+			// console.log("searchTypeArtist: " + searchTypeArtist);
+			var url = "/bkp12_MusicJPAWeb/servlets/ArtistListWS?bandName=" + titleArtist + "&searchType=" + searchTypeArtist;
+			// console.log(url);
+			$.get(url, function(resp){
+				// console.log(resp);
+				parseArtistData(resp);
+
+			}) 
+		}else{
+			console.log("error");
+		}
+	}
+	
+	function parseSongData(data){
+		// $("#searchResults").text(JSON.stringify(data));
+		$('.hide1').show();
+		$('.hide2').hide();
+		$('.hide3').hide();
+		$('.hide4').hide();
+		$('.hide5').hide();
+		$(".dataRow").remove();
+		
+		var result = "";
+		for(var i=0; i < data.length; i++){
+			var tr = $("<tr class='dataRow'></tr>"); // created empty html table row
+			
+			// First data cell
+			var td = $("<td></td>"); // created empty html table data
+			td.html(data[i].title);
+			tr.append(td);
+			
+			// Second data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].length)
+			tr.append(td);
+			
+			// Third data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].file_path)
+			tr.append(td);
+			
+			// Fourth data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].release_date)
+			tr.append(td);
+			
+			// Fifth data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].record_date)
+			tr.append(td);
+			
+			// data cell
+			// Note that we don't need to redeclare this
+			//td = $("<td></td>");
+			//var link = "<a href='song.html?song_id=" + data[i].song_id + "'>View Songs</a>";
+			//td.html(link)
+			//tr.append(td);
+			
+			// Append row to the table
+			$("#tblSearchResults").append(tr);
+			
+			// result += 'Name: ' + data[i].genre_name + ' Description: ' + data[i].description + '<br />';
+		}
+		
+		// $("#searchResults").html(result);
+	}
+	function parseAlbumData(data){
+		// $("#searchResults").text(JSON.stringify(data));
+		$('.hide1').hide();
+		$('.hide2').show();
+		$('.hide3').hide();
+		$('.hide4').hide();
+		$('.hide5').hide();
+		$(".dataRow").remove();
+		var result = "";
+		for(var i=0; i < data.length; i++){
+			var tr = $("<tr class='dataRow'></tr>"); // created empty html table row
+			
+			// First data cell
+			var td = $("<td></td>"); // created empty html table data
+			td.html(data[i].title);
+			tr.append(td);
+			
+			// Second data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].release_date)
+			tr.append(td);
+			
+			// Third data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].cover_image_path)
+			tr.append(td);
+			
+			// Fourth data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].recording_company)
+			tr.append(td);
+			
+			// Fifth data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].number_of_tracks)
+			tr.append(td);
+			
+			// Sixth data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].pmrcRating)
+			tr.append(td);
+			
+			// Seventh data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].length)
+			tr.append(td);
+			
+			// data cell
+			// Note that we don't need to redeclare this
+			//td = $("<td></td>");
+			//var link = "<a href='song.html?song_id=" + data[i].song_id + "'>View Songs</a>";
+			//td.html(link)
+			//tr.append(td);
+			
+			// Append row to the table
+			$("#tblSearchResults").append(tr);
+			
+			// result += 'Name: ' + data[i].genre_name + ' Description: ' + data[i].description + '<br />';
+		}
+		
+		// $("#searchResults").html(result);
+	}
+	function parseArtistData(data){
+		// $("#searchResults").text(JSON.stringify(data));
+		$('.hide1').hide();
+		$('.hide2').hide();
+		$('.hide3').show();
+		$('.hide4').hide();
+		$('.hide5').hide();
+		$(".dataRow").remove();
+		var result = "";
+		console.log(data);
+		for(var i=0; i < data.length; i++){
+			var tr = $("<tr class='dataRow'></tr>"); // created empty html table row
+			
+			// First data cell
+			var td = $("<td></td>"); // created empty html table data
+			td.html(data[i].first_name);
+			tr.append(td);
+			
+			// Second data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].last_name)
+			tr.append(td);
+			
+			// Third data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].band_name)
+			tr.append(td);
+			
+			// Fourth data cell
+			// Note that we don't need to redeclare this
+			td = $("<td></td>");
+			td.html(data[i].bio)
+			tr.append(td);
+			
+			// data cell
+			// Note that we don't need to redeclare this
+			//td = $("<td></td>");
+			//var link = "<a href='song.html?song_id=" + data[i].song_id + "'>View Songs</a>";
+			//td.html(link)
+			//tr.append(td);
+			
+			// Append row to the table
+			$("#tblSearchResults").append(tr);
+			
+			// result += 'Name: ' + data[i].genre_name + ' Description: ' + data[i].description + '<br />';
+		}
+		
+		// $("#searchResults").html(result);
+	}
+</script>
+</html>
